@@ -24,7 +24,8 @@ class HomePage extends StatelessWidget
                     body: Stack(
         children: [
           Container(
-height: double.infinity,
+
+                    height: double.infinity,
                     width: double.infinity,
                     decoration : BoxDecoration(
                     image: DecorationImage(
@@ -47,7 +48,8 @@ height: double.infinity,
             child: Column(
 
               children: [
-                const Spacer(),
+
+                const SizedBox(height:20,),
                 Container(
 
                   child: ClipRRect(
@@ -57,27 +59,16 @@ height: double.infinity,
                           'logo/explore_logo.png',),
                         filterQuality: FilterQuality.none,
                         fit: BoxFit.none,
-
+                        height: 250,
                     ),
 
-                  ),
-                ),
-
-                const Text(
-                  "Explore Lesotho \nonly with us",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white70,
-                   fontFamily: 'Inter-black',
                   ),
                 ),
                 Stack(
                   children: <Widget>[
                     // Stroked text as border.
                     Text(
-                      'Greetings, planet!',
+                      "Explore Lesotho \n   only with us",
                       style: TextStyle(
                         fontSize: 30,
                         foreground: Paint()
@@ -87,8 +78,8 @@ height: double.infinity,
                       ),
                     ),
                     // Solid text as fill.
-                    Text(
-                      'Greetings, planet!',
+                    const Text(
+                      "Explore Lesotho \n   only with us",
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -96,20 +87,36 @@ height: double.infinity,
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                 Text(
-                  "All your vacations destinations are here,\nenjoy your",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                   textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                const SizedBox(height: 40),
 
-                  ),
-                  ),
+            Stack(
+              children: <Widget>[
+                Text(
+                  "All the hotels, rooms and resorts in the \n Kingdom of Lesotho are here",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                   fontSize:20,
+                   foreground: Paint()
+                     ..style = PaintingStyle.stroke
+                     ..strokeWidth = 3
+                     ..color = Colors.black,
+                 ),
                 ),
 
-                const Spacer(),
+                Text(
+                  "All the hotels, rooms and resorts in the \n Kingdom of Lesotho are here",
+                  textAlign: TextAlign.center,
+                  style:TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+
+                  ),
+                ),
+                ],
+            ),
+                const SizedBox(height:60,),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: SizedBox(
@@ -122,6 +129,7 @@ height: double.infinity,
                   title: const Text("Alert Dialog Box"),
                   content: const Text("Loading Soon"),
                   actions: <Widget>[
+
                     TextButton(
                       onPressed: () {
                         Navigator.of(ctx).pop();
@@ -138,23 +146,44 @@ height: double.infinity,
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
+                        foregroundColor: Color(0xEFEAEA),
                         shape: const StadiumBorder(),
                         padding: const EdgeInsets.symmetric(
                           vertical: 15,
                           horizontal: 8.0,
                         ),
                       ),
-                      child: const Text("Get Started"),
+                      child: const Text("Start Booking",
+                      style: TextStyle(
+                        color: Colors.black
+                      ),),
                     ),
+
                   ),
-                )
+                ),
+
               ],
             ),
           ),
         ),
     ],
       ),
-    );
+      bottomNavigationBar:
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children :[
+        Text(
+        "EXPLORE LESOTHO © 2024",
+            style: TextStyle(
+              fontSize: 10,
+            ),
+      ),
+      ],
+      ),
+
+      );
+
   }
 
 
