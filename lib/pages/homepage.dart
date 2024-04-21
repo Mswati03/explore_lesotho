@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import 'package:explore_lesotho/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -87,7 +89,7 @@ class HomePage extends StatelessWidget
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
 
             Stack(
               children: <Widget>[
@@ -98,7 +100,7 @@ class HomePage extends StatelessWidget
                    fontSize:20,
                    foreground: Paint()
                      ..style = PaintingStyle.stroke
-                     ..strokeWidth = 3
+                     ..strokeWidth = 1
                      ..color = Colors.black,
                  ),
                 ),
@@ -118,31 +120,32 @@ class HomePage extends StatelessWidget
             ),
                 const SizedBox(height:60,),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
+                  padding: const EdgeInsets.only(bottom: 0),
                   child: SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
                       onPressed: () {
-                      showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text("Alert Dialog Box"),
-                  content: const Text("Loading Soon"),
-                  actions: <Widget>[
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return  LoadingAnimationWidget.inkDrop(
+                              color: Colors.blueAccent,
+                              size: 50,
 
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Container(
-                        color: Colors.green,
-                        padding: const EdgeInsets.all(14),
-                        child: const Text("okay"),
-                      ),
-                    ),
-                  ],
-                ),
-              );
+
+
+                            );
+                          },
+                        );
+                        new Future.delayed(new Duration(seconds: 5), () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ),
+                          );
+                        },
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
