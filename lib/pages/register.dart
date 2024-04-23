@@ -1,6 +1,10 @@
 
 
+import 'package:explore_lesotho/pages/emailverification.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import 'login-page.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -92,7 +96,7 @@ Center(
                 controller: _emailController,
                 obscureText: false ,
                 decoration: InputDecoration(
-                  hintText: "User ID",
+                  hintText: "Email Address",
                   prefixIcon: Icon(Icons.email_outlined, color: Colors.black
                   ),
                 ),
@@ -122,49 +126,80 @@ Center(
                 height: 10,
               ),
               Positioned(
-                left: 146,
+                left: 200,
                 top: 715,
-                child: Text(
-                  'Already have an account?',
-                  style: TextStyle(
-                    color: Color(0xFF3200FF),
-                    fontSize: 15,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
-                  ),
+                child: TextButton(
+                   onPressed: () {  showDialog(
+                     context: context,
+                     barrierDismissible: false,
+                     builder: (BuildContext context) {
+                       return  LoadingAnimationWidget.inkDrop(
+                         color: Colors.blueAccent,
+                         size: 50,
+
+
+
+                       );
+                     },
+                   );
+                   new Future.delayed(new Duration(seconds: 2), () {
+                     Navigator.of(context).push(
+                       MaterialPageRoute(
+                         builder: (context) =>LoginPage(),
+                       ),
+                     );
+                   },
+                   );},
+                    child: Text('Already have an account?',
+                    style: TextStyle(
+                      color: Color(0xFF3200FF),
+                      fontSize: 15,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ))
                 ),
               ),
               SizedBox(
                 height: screenHeight * .075,
               ),
-              ElevatedButton(
-                  //: 'Log In',
-                  onPressed: () async {
 
-                  }, child: Text(
-                "Sign Up"
-              )
+
+              ElevatedButton(
+                onPressed: (){
+    showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+    return  LoadingAnimationWidget.inkDrop(
+    color: Colors.blueAccent,
+    size: 50,
+
+
+
+    );
+    },
+    );
+    new Future.delayed(new Duration(seconds: 2), () {
+    Navigator.of(context).push(
+    MaterialPageRoute(
+    builder: (context) =>EmailVerify(),
+    ),
+    );
+    },
+    );},
+
+                child: Text('Register'),
               ),
+
+
+
 
             ],
           ),
     ),
         ),
-        Positioned(
-          left: 109,
-          top: 913,
-          child: Text(
-            'EXPLORE LESOTHO © 2024',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-              height: 0,
-            ),
-          ),
-        ),
+
       ],
       ),
      ),
@@ -187,7 +222,7 @@ class FormButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(1),
         ),
       ),
       child: Text(
