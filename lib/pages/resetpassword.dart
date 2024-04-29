@@ -99,8 +99,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                       controller: _emailController,
                       obscureText: false ,
                       decoration: InputDecoration(
-                        hintText: "Verification Code",
-                        prefixIcon: Icon(Icons.security, color: Colors.black
+                        hintText: "Email Address",
+                        prefixIcon: Icon(Icons.email, color: Colors.black
                         ),
                       ),
                     ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "11171922951",
+    "project_id": "explore-lesotho",
+    "storage_bucket": "explore-lesotho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11171922951:android:bb76d00977f105888a56a2",
+        "android_client_info": {
+          "package_name": "com.example.explore_lesotho"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4itUSfJDLCTv74inHYaq43n-m-C0IAI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
