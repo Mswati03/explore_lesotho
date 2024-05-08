@@ -142,7 +142,7 @@ Center(
                        );
                      },
                    );
-                   new Future.delayed(new Duration(seconds: 2), () {
+                   new Future.delayed(new Duration(seconds: 1), () {
                      Navigator.of(context).push(
                        MaterialPageRoute(
                          builder: (context) =>LoginPage(),

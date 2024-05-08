@@ -138,7 +138,7 @@ class HomePage extends StatelessWidget
                             );
                           },
                         );
-                        new Future.delayed(new Duration(seconds: 5), () {
+                        new Future.delayed(new Duration(seconds: 1), () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => RegisterPage(),

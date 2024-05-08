@@ -1,5 +1,6 @@
 
 
+import 'package:explore_lesotho/dashboard/dashboard-nav.dart';
 import 'package:explore_lesotho/pages/emailverification.dart';
 import 'package:explore_lesotho/pages/register.dart';
 import 'package:explore_lesotho/pages/resetpassword.dart';
@@ -194,7 +195,27 @@ const Spacer(),
 
 
                     ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return  LoadingAnimationWidget.inkDrop(
+                            color: Colors.blueAccent,
+                            size: 50,
+
+
+
+                          );
+                        },
+                      );
+                      new Future.delayed(new Duration(seconds: 1), () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>DashNav(),
+                          ),
+                        );
+                      },
+                      );},
                       child: Text("Login"),
                     ),
 

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Explore Lesotho | Hotel & Travel ',
+      title: 'Explore Lesotho | Hotel & Travel',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
