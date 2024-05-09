@@ -37,7 +37,7 @@ class _DashNavState extends State<DashNav> {
 
   int currentIndex=0;
 
-  Color primary= const Color(0xFF0000FF);
+  Color primary=  Colors.black;
   @override
   Widget build(BuildContext context) {
     screenHeight= MediaQuery.of(context).size.height;
@@ -63,7 +63,7 @@ class _DashNavState extends State<DashNav> {
                                 borderRadius: BorderRadius.all(Radius.circular(40)),
                                 boxShadow: [
                     BoxShadow(
-                              color: Colors.blue,
+                              color: Colors.green,
                               blurRadius: 10,
                               offset: Offset(2,2)
                               )
@@ -110,7 +110,7 @@ class _DashNavState extends State<DashNav> {
                     height: 3,
                          width: 24,
                     decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Colors.black26,
                     borderRadius: BorderRadius.all(Radius.circular(40)),
 
     ),

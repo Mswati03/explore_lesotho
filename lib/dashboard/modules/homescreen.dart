@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/hotelsnearby.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,16 +14,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
    return  SingleChildScrollView(
-          child :Container(
+          child :Column(
+          children:[
+            Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [
-                    Colors.lightBlue,
+                    Colors.lightGreen,
                     Colors.white70,
-
-
                   ],
                 )
             ),
@@ -46,28 +48,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(top: 10, left: 20),
                     child:Text("Current Location",style: TextStyle(
                       fontSize: 15,
-                      fontFamily: "Inter"
+                      fontFamily: "Inter",
+                      fontWeight: FontWeight.w900,
                     ),
                     ),
                     ),
                     const SizedBox(height: 2,),
                     Text("Maseru,Lesotho",style: TextStyle(
                         fontSize: 13,
-                        fontFamily: "Inter"
+                        fontFamily: "Inter",
+                      fontWeight: FontWeight.w900,
                     ),
                     ),
                    // const Spacer(),
-
-                    Icon(Icons.notifications)
                   ],
-                )
+                ),
+                    IconButton(
+                        icon :Icon(Icons.notifications),
+                      onPressed: () {  },
+                    )
+
               ],
             ),
 
           ) ,
+            HotelsNearby(),
 
-
-
+]
+          ),
     );
   }
 }
