@@ -47,8 +47,9 @@ class _EmailVerifyState extends State<EmailVerify> {
                    child:    Image(
                      width: 368,
                       height: 198,
-                      image :AssetImage(
-                              'logo/old-logo.jpg',),
+                      image :NetworkImage(
+                              'https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Flogos%2Fold-logo.jpg?alt=media&token=e847a666-fe0b-460c-b11d-ee9ed52272ca'
+                                  ,),
                                 filterQuality: FilterQuality.none,
                                 fit: BoxFit.none,
 

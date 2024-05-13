@@ -31,8 +31,8 @@ class HomePage extends StatelessWidget
                     width: double.infinity,
                     decoration : BoxDecoration(
                     image: DecorationImage(
-                        image : AssetImage(
-              'places/Sani+Pass.jpg',),
+                        image : NetworkImage(
+              'https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Flogos%2FSani%2BPass.jpg?alt=media&token=9940f1a2-737c-4916-8a94-32e98ec2e464',),
               fit: BoxFit.cover
           ),
           ),
@@ -57,8 +57,7 @@ class HomePage extends StatelessWidget
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(2000000000000.0),
                     child :Image(
-                      image :AssetImage(
-                          'logo/explore_logo.png',),
+                      image :NetworkImage("https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Flogos%2Fexplore_logo.png?alt=media&token=f6a58ff5-b15b-4dd4-8108-2f66e841d207"),
                         filterQuality: FilterQuality.none,
                         fit: BoxFit.none,
                         height: 250,
@@ -99,8 +98,8 @@ class HomePage extends StatelessWidget
                   style: TextStyle(
                    fontSize:20,
                    foreground: Paint()
-                     ..style = PaintingStyle.stroke
-                     ..strokeWidth = 1
+                     ..style = PaintingStyle.fill
+                     ..strokeWidth = 2
                      ..color = Colors.black,
                  ),
                 ),
