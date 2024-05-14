@@ -18,21 +18,22 @@ class _WeatherHomeScreenState extends State<WeatherHomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildSearchWidget(),
-            const SizedBox(height: 20),
-            if (inProgress)
-              CircularProgressIndicator()
-            else
-              Expanded(
-                  child: SingleChildScrollView(child: _buildWeatherWidget())),
-          ],
-        ),
-      ),
-    ));
+          body: Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                _buildSearchWidget(),
+                const SizedBox(height: 20),
+                if (inProgress)
+                  CircularProgressIndicator()
+                else
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: _buildWeatherWidget())),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _buildSearchWidget() {
@@ -134,9 +135,13 @@ class _WeatherHomeScreenState extends State<WeatherHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _dataAndTitleWidget("Local Time",
-                        response?.location?.localtime?.split(" ").last ?? ""),
+                        response?.location?.localtime
+                            ?.split(" ")
+                            .last ?? ""),
                     _dataAndTitleWidget("Local Date",
-                        response?.location?.localtime?.split(" ").first ?? ""),
+                        response?.location?.localtime
+                            ?.split(" ")
+                            .first ?? ""),
                   ],
                 )
               ],
@@ -175,15 +180,18 @@ class _WeatherHomeScreenState extends State<WeatherHomeScreen> {
   _getWeatherData(String location) async {
     setState(() {
       inProgress = true;
+      message = ""; // Clear previous error message
     });
 
     try {
-      response = await WeatherAPI().getCurrentWeather(location);
+      final response = await WeatherAPI().getCurrentWeather(location);
+      // Process the response here if needed
     } catch (e) {
       setState(() {
-        message = "Failed to get weather ";
-        response = null;
+        message =
+        "Failed to get weather: $e"; // Update error message with the caught exception
       });
+      print(message);
     } finally {
       setState(() {
         inProgress = false;

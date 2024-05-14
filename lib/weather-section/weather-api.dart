@@ -4,6 +4,7 @@ import 'dart:convert';
 
 
 class WeatherAPI{
+  String apiKey = "115af09c6ac4347869ca144113241305";
   final String api_key = "http://api.weatherapi.com/v1/current.json";
 
  Future<ApiResponse> getCurrentWeather(String location) async {
