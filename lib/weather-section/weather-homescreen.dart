@@ -64,6 +64,7 @@ class _WeatherHomeScreenState extends State<WeatherHomeScreen> {
                 style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w300,
+                  color: Colors.black,
                 ),
               ),
               Text(
@@ -184,14 +185,13 @@ class _WeatherHomeScreenState extends State<WeatherHomeScreen> {
     });
 
     try {
-      final response = await WeatherAPI().getCurrentWeather(location);
-      // Process the response here if needed
+      response = await WeatherAPI().getCurrentWeather(location);
+
     } catch (e) {
       setState(() {
         message =
         "Failed to get weather: $e"; // Update error message with the caught exception
       });
-      print(message);
     } finally {
       setState(() {
         inProgress = false;
