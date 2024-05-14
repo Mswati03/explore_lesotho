@@ -1,19 +1,70 @@
+import 'package:explore_lesotho/dashboard/dashboard-nav.dart';
+import 'package:explore_lesotho/dashboard/modules/profile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_tawk/flutter_tawk.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class ChatBotPage extends StatefulWidget {
-  const ChatBotPage({super.key});
+class LiveSupportPage extends StatefulWidget {
+  const LiveSupportPage({super.key});
 
   @override
-  State<ChatBotPage> createState() => _ChatBotPageState();
+  State<LiveSupportPage> createState() => _LiveSupportPageState();
 }
 
-class _ChatBotPageState extends State<ChatBotPage> {
+class _LiveSupportPageState extends State<LiveSupportPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter Tawk'),
+          backgroundColor: const Color(0XFFF7931E),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon (Icons.keyboard_double_arrow_left,),
+            onPressed: () {
+    showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+    return  LoadingAnimationWidget.inkDrop(
+    color: Colors.blueAccent,
+    size: 50,
 
-          "ChatBot"
+
+
+    );
+    },
+    );
+    new Future.delayed(new Duration(seconds: 1), () {
+    Navigator.of(context).push(
+    MaterialPageRoute(
+    builder: (context) => DashNav(),
+    ),
+    );
+    },
+    );
+    },
+
+          ),
+        ),
+        body: Tawk(
+          directChatLink: 'YOUR_DIRECT_CHAT_LINK',
+          visitor: TawkVisitor(
+            name: 'Ayoub AMINE',
+            email: 'ayoubamine2a@gmail.com',
+          ),
+          onLoad: () {
+            print('Hello Tawk!');
+          },
+          onLinkTap: (String url) {
+            print(url);
+          },
+          placeholder: const Center(
+            child: Text('Loading...'),
+          ),
+        ),
       ),
     );
   }

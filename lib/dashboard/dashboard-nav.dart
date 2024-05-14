@@ -20,7 +20,7 @@ class _DashNavState extends State<DashNav> {
   [
     "Home",
     "Weather",
-    "ChatBot",
+    //"LiveChat",
     "Profile",
 
   ];
@@ -29,7 +29,7 @@ class _DashNavState extends State<DashNav> {
   List<IconData> navigationIcons = [
    Icons.home_outlined,
     Icons.cloud_outlined,
-    FontAwesomeIcons.rocketchat,
+    //FontAwesomeIcons.headset,
     FontAwesomeIcons.user,
   ];
 
@@ -49,7 +49,7 @@ class _DashNavState extends State<DashNav> {
         children: const [
         HomeScreen(),
           WeatherHomeScreen(),
-        ChatBotPage(),
+       // ChatBotPage(),
         Profile(),
     ],
     ),
