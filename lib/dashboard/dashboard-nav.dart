@@ -2,6 +2,7 @@ import 'package:explore_lesotho/dashboard/modules/chatbot.dart';
 import 'package:explore_lesotho/dashboard/modules/homescreen.dart';
 import 'package:explore_lesotho/dashboard/modules/profile.dart';
 import 'package:explore_lesotho/dashboard/modules/weather.dart';
+import 'package:explore_lesotho/weather-section/weather-homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -47,7 +48,7 @@ class _DashNavState extends State<DashNav> {
         index: currentIndex,
         children: const [
         HomeScreen(),
-          WeatherPage(),
+          WeatherHomeScreen(),
         ChatBotPage(),
         Profile(),
     ],
