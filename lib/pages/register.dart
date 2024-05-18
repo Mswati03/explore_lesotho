@@ -1,6 +1,9 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore_lesotho/pages/emailverification.dart';
+import 'package:explore_lesotho/pages/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -20,16 +23,26 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage>{
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpasswordController = TextEditingController();
+   FirebaseFirestore db = FirebaseFirestore.instance;
+   bool _passwordVisible = true;
+   bool _confirmpasswordVisible = true;
   @override
+
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
+@override
+  void initState() {
+    _passwordVisible = false;
+    _confirmpasswordVisible=false;
+  }
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    
     return Material(
      child: SingleChildScrollView(
       child: Column(
@@ -104,21 +117,51 @@ Center(
               SizedBox(height: screenHeight * .025),
               TextField(
                 controller: _passwordController,
-                obscureText: true ,
+                obscureText: !_passwordVisible,
                 decoration: InputDecoration(
                   hintText: "Password",
                   prefixIcon: Icon(Icons.lock, color: Colors.black
                   ),
+                  suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+               _passwordVisible
+               ? Icons.visibility
+               : Icons.visibility_off,
+               color: Theme.of(context).primaryColorDark,
+               ),
+            onPressed: () {
+               // Update the state i.e. toogle the state of passwordVisible variable
+               setState(() {
+                   _passwordVisible = !_passwordVisible;
+               });
+             },
+            ),
                 ),
               ),
               SizedBox(height: screenHeight * .025),
               TextField(
-                controller: _passwordController,
-                obscureText: true ,
+                controller: _confirmpasswordController,
+                obscureText: !_confirmpasswordVisible,
                 decoration: InputDecoration(
                   hintText: "Password Confirmation",
                   prefixIcon: Icon(Icons.lock, color: Colors.black
                   ),
+                  suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+               _confirmpasswordVisible
+               ? Icons.visibility
+               : Icons.visibility_off,
+               color: Theme.of(context).primaryColorDark,
+               ),
+            onPressed: () {
+               // Update the state i.e. toogle the state of passwordVisible variable
+               setState(() {
+                   _confirmpasswordVisible = !_confirmpasswordVisible;
+               });
+             },
+            ),
                 ),
               ),
 
@@ -129,7 +172,10 @@ Center(
                 left: 200,
                 top: 715,
                 child: TextButton(
-                   onPressed: () {  showDialog(
+                   onPressed: () async {  
+
+                        
+                    showDialog(
                      context: context,
                      barrierDismissible: false,
                      builder: (BuildContext context) {
@@ -166,8 +212,43 @@ Center(
 
 
               ElevatedButton(
-                onPressed: (){
-    showDialog(
+                onPressed: () async {
+
+                  FocusScope.of(context).unfocus();
+                String id = _emailController.text.trim();
+                String password = _passwordController.text.trim();
+                  if(_passwordController.text!=_confirmpasswordController.text)
+                        {
+                            showDialog(context: context,
+                             builder: (BuildContext context) => AlertDialog(
+          title: const Text('Password Mismatch'),
+          content: const Text('Passwords do not match'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>  Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    ),
+              child: const Text('Home'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('Try Again'),
+            ),
+          ],
+                ),);
+                        }
+                    else{
+                    try {
+                        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                         email: _emailController.text,
+                        password: _passwordController.text,
+                       );
+                       db.collection("users").doc(userCredential.user?.uid).set({"email": id, 
+                       "password":password});
+
+                       showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
@@ -180,14 +261,31 @@ Center(
     );
     },
     );
-    new Future.delayed(new Duration(seconds: 2), () {
+
+
+
+     Future.delayed(new Duration(seconds: 2), () {
     Navigator.of(context).push(
     MaterialPageRoute(
-    builder: (context) =>EmailVerify(),
+    builder: (context) =>EmailVerify( ),
     ),
     );
     },
-    );},
+    );
+
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                          print('The password provided is too weak.');
+                           } else if (e.code == 'email-already-in-use') {
+                          print('The account already exists for that email.');
+                          }
+                          } catch (e) {
+                           print(e);
+                          }
+                    
+                    
+                    }
+                      },
 
                 child: Text('Register'),
               ),
@@ -274,3 +372,4 @@ class InputField extends StatelessWidget {
     );
   }
 }
+

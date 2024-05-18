@@ -4,6 +4,7 @@ import 'package:explore_lesotho/dashboard/dashboard-nav.dart';
 import 'package:explore_lesotho/pages/emailverification.dart';
 import 'package:explore_lesotho/pages/register.dart';
 import 'package:explore_lesotho/pages/resetpassword.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -21,13 +22,17 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>{
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _passwordVisible = true;
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
+@override
+  void initState() {
+    _passwordVisible = false;
+  }
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -105,11 +110,27 @@ class _LoginPageState extends State<LoginPage>{
                     SizedBox(height: screenHeight * .025),
                     TextField(
                       controller: _passwordController,
-                      obscureText: true ,
+                       obscureText: !_passwordVisible,
                       decoration: InputDecoration(
+                        
                         hintText: "Password",
                         prefixIcon: Icon(Icons.lock, color: Colors.black
                         ),
+                        suffixIcon: IconButton(
+            icon: Icon(
+              
+               _passwordVisible
+               ? Icons.visibility
+               : Icons.visibility_off,
+               color: Theme.of(context).primaryColorDark,
+               ),
+            onPressed: () {
+             
+               setState(() {
+                   _passwordVisible = !_passwordVisible;
+               });
+             },
+            ),
                       ),
                     ),
 
@@ -124,7 +145,10 @@ class _LoginPageState extends State<LoginPage>{
                       left: 200,
                       top: 715,
                       child: TextButton(
-                          onPressed: () {  showDialog(
+                          onPressed: () {  
+                            
+                            
+                            showDialog(
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
@@ -195,7 +219,11 @@ const Spacer(),
 
 
                     ElevatedButton(
-                      onPressed: (){showDialog(
+                      onPressed: () async {
+                        _emailController.clear;
+                        _passwordController.clear;
+
+                                          showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (BuildContext context) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EmailVerify extends StatefulWidget {
-  const EmailVerify ({super.key});
+  
+
+  const EmailVerify ({super.key });
 
   @override
   State<EmailVerify> createState() => _EmailVerifyState();
@@ -9,6 +11,7 @@ class EmailVerify extends StatefulWidget {
 
 class _EmailVerifyState extends State<EmailVerify> {
   TextEditingController _codeController = TextEditingController();
+  var email;
 
   void dispose() {
     _codeController.dispose();
@@ -16,6 +19,7 @@ class _EmailVerifyState extends State<EmailVerify> {
   }
   @override
   Widget build(BuildContext context) {
+  
     return Material(
       child: SingleChildScrollView(
       child: Column(
