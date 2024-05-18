@@ -18,7 +18,7 @@ class _LiveSupportPageState extends State<LiveSupportPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter Tawk'),
+          title: const Text('Explore Lesotho Live Chat'),
           backgroundColor: const Color(0XFFF7931E),
           elevation: 0,
           leading: IconButton(
@@ -50,7 +50,7 @@ class _LiveSupportPageState extends State<LiveSupportPage> {
           ),
         ),
         body: Tawk(
-          directChatLink: 'YOUR_DIRECT_CHAT_LINK',
+          directChatLink: 'https://tawk.to/chat/6644cc68981b6c564770bee4/1htubsv3e',
           visitor: TawkVisitor(
             name: 'Ayoub AMINE',
             email: 'ayoubamine2a@gmail.com',

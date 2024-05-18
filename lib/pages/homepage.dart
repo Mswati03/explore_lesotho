@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget
                    fontSize:20,
                    foreground: Paint()
                      ..style = PaintingStyle.fill
-                     ..strokeWidth = 2
+                     ..strokeWidth = 6
                      ..color = Colors.black,
                  ),
                 ),
@@ -108,9 +108,9 @@ class HomePage extends StatelessWidget
                   "All the hotels, rooms and resorts in the \n Kingdom of Lesotho are here",
                   textAlign: TextAlign.center,
                   style:TextStyle(
-                    fontStyle: FontStyle.normal,
+                    //fontStyle: FontStyle.normal,
                     fontSize: 20,
-                    fontWeight: FontWeight.w900,
+                    //fontWeight: FontWeight.w900,
                     color: Colors.white,
 
                   ),

@@ -44,6 +44,7 @@ dependencies:
   firebase_core: ^2.24.0
   http: ^1.2.1
   flutter_tawk: ^0.1.0
+  flutter_slidable: 1.3.0
 
 
 dev_dependencies:

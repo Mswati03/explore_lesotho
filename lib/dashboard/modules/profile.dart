@@ -25,92 +25,70 @@ class _ProfileState extends State<Profile> {
                 backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
               const SizedBox(height: 20),
-              itemProfile('Name', 'Ahad Hashmi', CupertinoIcons.person),
-              const SizedBox(height: 10),
-              itemProfile('Phone', '03107085816', CupertinoIcons.phone),
-              const SizedBox(height: 10),
+              itemProfile('User Information', 'mswat@gmail.com', CupertinoIcons.person, (){
+                print("user");
+
+              }),
+              const SizedBox(height: 15),
+              itemProfile('Bookings', 'See your bookings', CupertinoIcons.timer ,(){
+              print("user");
+
+              }),
+              const SizedBox(height: 15),
               itemProfile(
-                  'Address', 'abc address, xyz city', CupertinoIcons.location),
-              const SizedBox(height: 10),
-              itemProfile('Email', 'ahadhashmideveloper@gmail.com',
-                  CupertinoIcons.mail),
-              const SizedBox(height: 20,),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(15),
+                  'Live Chat', 'Talk to our agents', Icons.chat, (){
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return LoadingAnimationWidget.inkDrop(
+                      color: Colors.blueAccent,
+                      size: 50,
+
+
+                    );
+                  },
+                );
+                new Future.delayed(new Duration(seconds: 1), () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LiveSupportPage(),
                     ),
-                    child: const Text('Edit Profile')
-                ),
-              ),
-              const SizedBox(height: 20,),
-              FloatingActionButton.extended(
-                backgroundColor: const Color(0xff19da03),
-                foregroundColor: Colors.black,
-                elevation: 0,
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return LoadingAnimationWidget.inkDrop(
-                        color: Colors.blueAccent,
-                        size: 50,
-
-
-                      );
-                    },
-                  );
-                  new Future.delayed(new Duration(seconds: 1), () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => LiveSupportPage(),
-                      ),
-                    );
-                  },
                   );
                 },
-                // Respond to button press
-                label: Text('Live Chat'),
-                icon: Icon(Icons.headset_mic_outlined),
+                );
+
+              }),
+              const SizedBox(height: 12),
+              itemProfile('Log Out', 'Securely log off the app',
+                  CupertinoIcons.lock_fill, (){
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return LoadingAnimationWidget.inkDrop(
+                          color: Colors.blueAccent,
+                          size: 50,
 
 
-              ),
-              const SizedBox(height: 20,),
-              FloatingActionButton.extended(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.black,
-                elevation: 0,
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return LoadingAnimationWidget.inkDrop(
-                        color: Colors.blueAccent,
-                        size: 50,
-
-
+                        );
+                      },
+                    );
+                    new Future.delayed(new Duration(seconds: 1), () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
                       );
                     },
-                  );
-                  new Future.delayed(new Duration(seconds: 1), () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                      ),
                     );
-                  },
-                  );
-                },
-                // Respond to button press
-                label: Text('Log Out'),
-                icon: Icon(Icons.logout_outlined),
+
+                  }),
+              const SizedBox(height: 20,),
 
 
-              ),
+
+
             ]
         ),
 
@@ -121,7 +99,7 @@ class _ProfileState extends State<Profile> {
 
 
 }
-itemProfile(String title, String subtitle, IconData iconData) {
+itemProfile(String title, String subtitle, IconData iconData,onTap ) {
   return Container(
     decoration: BoxDecoration(
         color: Colors.white,
@@ -141,6 +119,8 @@ itemProfile(String title, String subtitle, IconData iconData) {
       leading: Icon(iconData),
       trailing: Icon(Icons.arrow_forward, color: Colors.grey.shade400),
       tileColor: Colors.white,
+      onTap: onTap,
+
     ),
   );
 

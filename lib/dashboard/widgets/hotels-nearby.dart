@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore_lesotho/details/details_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Hotels extends StatelessWidget {
   const Hotels({super.key});
@@ -28,9 +30,11 @@ class Hotels extends StatelessWidget {
             }
 
             return Row(
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+               children: snapshot.data!.docs.asMap().entries.map((entry) {
+                final index = entry.key;
+                final document = entry.value;
                 Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                return Padding(
+                Widget hotelWidget=Padding(
 
                   padding: EdgeInsets.only(right: 20), // Adjust spacing here
                   child: Positioned(
@@ -147,6 +151,40 @@ class Hotels extends StatelessWidget {
                     ),
                   ),
                 );
+                 // Check if it's the 5th document
+                if (index == 0) {
+                  return GestureDetector(
+                    onTap: () {
+                      print("1");
+                      // Navigate to detailed page
+                      showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return  LoadingAnimationWidget.inkDrop(
+                                color: Colors.blueAccent,
+                                size: 50,
+
+
+
+                              );
+                            },
+                          );
+                          new Future.delayed(new Duration(seconds: 2), () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>DetailsPage(),
+                              ),
+                            );
+                          },
+                          );
+                          },
+                  
+                    child: hotelWidget,
+                  );
+                }
+
+                return hotelWidget;
               }).toList(),
             );
           },
