@@ -6,6 +6,7 @@ import 'package:explore_lesotho/pages/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:email_otp/email_otp.dart';
 
 import 'login-page.dart';
 
@@ -39,8 +40,21 @@ class _RegisterPageState extends State<RegisterPage>{
     _passwordVisible = false;
     _confirmpasswordVisible=false;
   }
+  
   @override
   Widget build(BuildContext context) {
+    var acs = ActionCodeSettings(
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be whitelisted in the Firebase Console.
+    url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // This must be true
+    handleCodeInApp: true,
+    iOSBundleId: 'com.example.ios',
+    androidPackageName: 'com.example.android',
+    // installIfNotAvailable
+    androidInstallApp: true,
+    // minimumVersion
+    androidMinimumVersion: '12');
     double screenHeight = MediaQuery.of(context).size.height;
     
     return Material(
@@ -267,7 +281,7 @@ Center(
      Future.delayed(new Duration(seconds: 2), () {
     Navigator.of(context).push(
     MaterialPageRoute(
-    builder: (context) =>EmailVerify( ),
+    builder: (context) =>EmailVerify(),
     ),
     );
     },

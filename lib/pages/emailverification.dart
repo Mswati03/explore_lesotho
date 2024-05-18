@@ -1,9 +1,12 @@
+import 'package:email_otp/email_otp.dart';
+import 'package:explore_lesotho/pages/optinput.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerify extends StatefulWidget {
   
 
   const EmailVerify ({super.key });
+  
 
   @override
   State<EmailVerify> createState() => _EmailVerifyState();
@@ -11,15 +14,14 @@ class EmailVerify extends StatefulWidget {
 
 class _EmailVerifyState extends State<EmailVerify> {
   TextEditingController _codeController = TextEditingController();
-  var email;
-
+  TextEditingController _emailController = TextEditingController();
   void dispose() {
     _codeController.dispose();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
-  
+  EmailOTP myauth = EmailOTP();
     return Material(
       child: SingleChildScrollView(
       child: Column(
@@ -84,38 +86,61 @@ class _EmailVerifyState extends State<EmailVerify> {
                    ),
                  ),
         const SizedBox(height: 20,),
-        Positioned(
-          left: 21,
-          top: 447,
-          child: Text(
-            'WE HAVE SENT A CODE TO YOUR EMAIL\n               CHECK YOUR INBOX\n             AND ENTER THE CODE',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-              height: 0,
+         const SizedBox(
+            height: 60,
+            child: Text(
+              "Enter your Email to get Code",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-
-        const SizedBox(height:50 ,),
-        TextField(
-          controller: _codeController,
-          obscureText: false ,
-          decoration: InputDecoration(
-            hintText: "Verification Code",
-            prefixIcon: Icon(Icons.security, color: Colors.black
+          Card(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(
+                      Icons.mail,
+                    ),
+                    suffixIcon: IconButton(
+                        onPressed: () async {
+                          print("EmailInputted");
+                          myauth.setConfig(
+                              appEmail: "contact@hdevcoder.com",
+                              appName: "Email OTP",
+                              userEmail: _emailController.text.toString().trim(),
+                              otpLength: 4,
+                              otpType: OTPType.digitsOnly);
+                          if (await myauth.sendOTP() == true) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("OTP has been sent"),
+                            ));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>   OtpScreen(myauth: myauth,)));
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Oops, OTP send failed"),
+                            ));
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.send_rounded,
+                          color: Colors.teal,
+                        )),
+                    hintText: "Email Address",
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        const SizedBox(height:50 ,),
-        ElevatedButton(
-          onPressed: (){},
-          child: Text("Verify"),
-        ),
-
-      ],
+             ],
     ),
     ),
     ),
