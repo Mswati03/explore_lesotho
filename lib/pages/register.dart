@@ -290,8 +290,14 @@ Center(
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'weak-password') {
                           print('The password provided is too weak.');
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Password too weak"),
+                ));
                            } else if (e.code == 'email-already-in-use') {
                           print('The account already exists for that email.');
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Email is already in use"),
+                ));
                           }
                           } catch (e) {
                            print(e);

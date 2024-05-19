@@ -71,7 +71,8 @@ class _OtpScreenState extends State<OtpScreen> {
           ),
         ],
       ),
-      body: Column(
+      body:SingleChildScrollView( 
+      child : Column(
         children: [
           const SizedBox(
             height: 40,
@@ -81,7 +82,7 @@ class _OtpScreenState extends State<OtpScreen> {
             height: 40,
           ),
           const Text(
-            "Enter Mary's PIN",
+            "Check your email",
             style: TextStyle(fontSize: 40),
           ),
           Row(
@@ -105,7 +106,7 @@ class _OtpScreenState extends State<OtpScreen> {
             height: 40,
           ),
           const Text(
-            "Rider can't find a pin",
+            "Enter the OTP",
             style: TextStyle(fontSize: 20),
           ),
           const SizedBox(
@@ -134,6 +135,7 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
           )
         ],
+      ),
       ),
     );
   }

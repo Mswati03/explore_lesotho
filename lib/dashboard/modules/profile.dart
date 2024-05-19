@@ -1,5 +1,6 @@
 import 'package:explore_lesotho/dashboard/modules/chatbot.dart';
 import 'package:explore_lesotho/pages/login-page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -61,7 +62,8 @@ class _ProfileState extends State<Profile> {
               }),
               const SizedBox(height: 12),
               itemProfile('Log Out', 'Securely log off the app',
-                  CupertinoIcons.lock_fill, (){
+                  CupertinoIcons.lock_fill, () async {
+                    await FirebaseAuth.instance.signOut();
                     showDialog(
                       context: context,
                       barrierDismissible: false,

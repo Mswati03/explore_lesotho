@@ -220,9 +220,13 @@ const Spacer(),
 
                     ElevatedButton(
                       onPressed: () async {
-                        _emailController.clear;
-                        _passwordController.clear;
+                       try {
+                    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                      email: _emailController.text.toString().trim(),
+                                      password: _passwordController.text.toString().trim()
+                                    );
 
+                                    
                                           showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -235,7 +239,10 @@ const Spacer(),
 
                           );
                         },
-                      );
+                      ); 
+                      _emailController.clear;
+                        _passwordController.clear;
+                      
                       new Future.delayed(new Duration(seconds: 1), () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -243,7 +250,25 @@ const Spacer(),
                           ),
                         );
                       },
-                      );},
+                      );
+}                                 on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+
+                    print('No user found for that email.');
+
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("No User Found"),
+                ));
+                     } 
+                     else if (e.code == 'wrong-password') 
+                     {
+                   print('Wrong password provided for that user.');
+                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Wrong Password"),
+                ));
+  }
+}
+},
                       child: Text("Login"),
                     ),
 
