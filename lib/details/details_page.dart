@@ -187,7 +187,21 @@ class DetailsPage extends StatelessWidget {
                       ),
                      
                       
-               Container(
+              
+            ],
+          ),
+        ),
+
+        
+      ],
+    ),
+    ),
+
+    
+              
+              
+      const SizedBox(height: 10,),
+     Container(
                   width: 250.47,
                   height: 80.61,
                   child: Column(
@@ -224,16 +238,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              
-              
-            ],
-          ),
-        ),
-      ],
-    ),
-    ),
-      ]
+                ),],
       ),
     ),
 
@@ -339,7 +344,7 @@ class DetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Reverse Now',
+                          'Book Now',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
