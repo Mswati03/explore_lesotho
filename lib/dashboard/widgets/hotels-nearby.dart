@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore_lesotho/details/details_page.dart';
+import 'package:explore_lesotho/details/product-display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -173,7 +174,7 @@ class Hotels extends StatelessWidget {
                           new Future.delayed(new Duration(seconds: 2), () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>DetailsPage(),
+                                builder: (context) => SantoriniIslandPage(),
                               ),
                             );
                           },

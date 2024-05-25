@@ -48,6 +48,8 @@ dependencies:
   firebase_auth: ^4.19.5
   google_sign_in: ^6.2.1
   email_otp: ^2.1.2
+  syncfusion_flutter_datepicker: ^25.2.5
+  
 
 
 dev_dependencies:
@@ -76,6 +78,7 @@ flutter:
   assets:
     - assets/places/
     - assets/logo/
+   
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

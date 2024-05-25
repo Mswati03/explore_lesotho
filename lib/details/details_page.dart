@@ -1,5 +1,6 @@
 
 
+import 'package:explore_lesotho/details/indie-page.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -17,7 +18,13 @@ class DetailsPage extends StatelessWidget {
        
       appBar: AppBar(),
     body:SingleChildScrollView(
-      child : Column(
+      child :Screen3Widget(),
+      
+      
+      ),
+      );
+      }
+      }/* Column(
       children: [
         Container(
           width: screenWidth,          height: screenHeight,
@@ -195,12 +202,15 @@ class DetailsPage extends StatelessWidget {
         
       ],
     ),
+    
     ),
 
     
               
               
-      const SizedBox(height: 10,),
+    
+      
+                
      Container(
                   width: 250.47,
                   height: 80.61,
@@ -238,7 +248,224 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),],
+                ),
+               Container(
+      width: 335,
+      height: 112,
+      
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+        top: 0,
+        left: 0,
+        child: Text('Facilities', textAlign: TextAlign.left, style: TextStyle(
+        color: Color.fromRGBO(35, 35, 35, 1),
+        fontFamily: 'Montserrat',
+        fontSize: 18,
+        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        fontWeight: FontWeight.normal,
+        height: 1
+      ),)
+      ),Positioned(
+        top: 38,
+        left: 0,
+        child: Container(
+      decoration: BoxDecoration(
+          
+  ),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        
+        children: <Widget>[
+          Container(
+      decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+      gradient : LinearGradient(
+          begin: Alignment(-0.9762850403785706,-0.013151824474334717),
+          end: Alignment(0.013151824474334717,-0.02729370817542076),
+          colors: [Color.fromRGBO(23, 110, 242, 1),Color.fromRGBO(24, 110, 238, 1)]
+        ),
+  ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        
+        children: <Widget>[Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+          color : Color.fromRGBO(255, 255, 255, 1),
+  ),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+        top: 4.333199977874756,
+        left: 0.23772910237312317,
+        child: Icon(Icons.heat_pump),
+      ),
+        ]
+      )
+    ), SizedBox(height : 6),
+Text('1 Heater', textAlign: TextAlign.left, style: TextStyle(
+        color: Color.fromRGBO(183, 183, 183, 1),
+        fontFamily: 'CircularXX',
+        fontSize: 10,
+        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        fontWeight: FontWeight.normal,
+        height: 1
+      ),),
+],
+      ),
+    ), SizedBox(width : 14),
+Container(
+      decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+      gradient : LinearGradient(
+          begin: Alignment(-0.9762850403785706,-0.013151824474334717),
+          end: Alignment(0.013151824474334717,-0.02729370817542076),
+          colors: [Color.fromRGBO(23, 110, 242, 1),Color.fromRGBO(24, 110, 238, 1)]
+        ),
+  ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        
+        children: <Widget>[Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+          color : Color.fromRGBO(255, 255, 255, 1),
+  ),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+        top: 1,
+        left: 2,
+        child:Icon(Icons.dining),
+      ),
+        ]
+      )
+    ), SizedBox(height : 6),
+Text('Dinner', textAlign: TextAlign.left, style: TextStyle(
+        color: Color.fromRGBO(200, 200, 200, 1),
+        fontFamily: 'CircularXX',
+        fontSize: 10,
+        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        fontWeight: FontWeight.normal,
+        height: 1
+      ),),
+],
+      ),
+    ), SizedBox(width : 14),
+Container(
+      decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+      gradient : LinearGradient(
+          begin: Alignment(-0.9762850403785706,-0.013151824474334717),
+          end: Alignment(0.013151824474334717,-0.02729370817542076),
+          colors: [Color.fromRGBO(23, 110, 242, 1),Color.fromRGBO(24, 110, 238, 1)]
+        ),
+  ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        
+        children: <Widget>[Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+          color : Color.fromRGBO(255, 255, 255, 1),
+  ),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+        top: 1.9999998807907104,
+        left: 1,
+        child: Icon(Icons.bathtub),
+          )
+        ]
+      )
+    ), SizedBox(height : 6),
+Text('1 Tub', textAlign: TextAlign.left, style: TextStyle(
+        color: Color.fromRGBO(200, 200, 200, 1),
+        fontFamily: 'CircularXX',
+        fontSize: 10,
+        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        fontWeight: FontWeight.normal,
+        height: 1
+      ),),
+],
+      ),
+    ), SizedBox(width : 14),
+Container(
+      decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+      gradient : LinearGradient(
+          begin: Alignment(-0.9762850403785706,-0.013151824474334717),
+          end: Alignment(0.013151824474334717,-0.02729370817542076),
+          colors: [Color.fromRGBO(23, 110, 242, 1),Color.fromRGBO(24, 110, 238, 1)]
+        ),
+  ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        
+        children: <Widget>[Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+          color : Color.fromRGBO(255, 255, 255, 1),
+  ),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+        top: 2.999995231628418,
+        left: 4,
+        child: Icon(Icons.pool),
+      ),
+        ]
+      )
+    ), SizedBox(height : 6),
+Text('Pool', textAlign: TextAlign.left, style: TextStyle(
+        color: Color.fromRGBO(200, 200, 200, 1),
+        fontFamily: 'CircularXX',
+        fontSize: 10,
+        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+        fontWeight: FontWeight.normal,
+        height: 1
+      ),),
+],
+      ),
+    ),
+
+        ],
+      ),
+    )
+      ),
+        ]
+      )
+    ) ],
       ),
     ),
 
@@ -371,4 +598,4 @@ class DetailsPage extends StatelessWidget {
     );
     
   }
-}
+}*/
