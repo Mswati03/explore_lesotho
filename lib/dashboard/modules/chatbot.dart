@@ -16,10 +16,11 @@ class _LiveSupportPageState extends State<LiveSupportPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Explore Lesotho Live Chat'),
-          backgroundColor: const Color(0XFFF7931E),
+          backgroundColor: Color.fromARGB(255, 0, 255, 55),
           elevation: 0,
           leading: IconButton(
             icon: Icon (Icons.keyboard_double_arrow_left,),

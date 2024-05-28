@@ -1,4 +1,7 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:explore_lesotho/dashboard/dashboard-nav.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SantoriniIslandPage extends StatefulWidget {
@@ -12,19 +15,16 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
    bool dateSelected = false;
    //bool dateSelected = false;
   String dateResponse = '';
+  int pricePerPerson = 1000;
+  int totalPrice = 1000;
+  List<String> imageUrls = [
+    "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F130896336.jpg?alt=media&token=c66ade5b-3e60-49e4-9ace-2f8a72f6a6aa"
+    "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F404.jpeg?alt=media&token=519a642a-b3ed-450a-bc7c-a06524417e53",
+    "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F420ab49c-ezgif.com-webp-to-jpg-converter.jpg?alt=media&token=a39240ff-1e33-4c1e-83bb-a1639834866c",
+    "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2FCM_Vd-Dd_400x400.jpg?alt=media&token=7f6a1d32-f3ea-4003-b99e-81abae968d83",
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  ];
+
 
   List<DateTime?> _rangeDatePickerWithActionButtonsWithValue = [
     DateTime.now(),
@@ -34,9 +34,14 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
     DateTime(2021, 8, 10),
     DateTime(2021, 8, 13),
   ];
+ @override
+  void initState() {
+    super.initState();
+   // fetchImageUrls();
+  }
 
   
-
+  
   @override
   Widget build(BuildContext context) {
 
@@ -58,11 +63,17 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
           : 'null';
     } else if (datePickerType == CalendarDatePicker2Type.range) {
       if (values.isNotEmpty) {
-        final startDate = values[0].toString().replaceAll('00:00:00.000', '');
-        final endDate = values.length > 1
-            ? values[1].toString().replaceAll('00:00:00.000', '')
+        final startDate = values[0];
+        final endDate = values.length > 1 ? values[1] : null;
+        if (startDate != null && endDate != null) {
+          final duration = endDate.difference(startDate).inDays + 1; // Include the start date
+          totalPrice = duration * pricePerPerson;
+        }
+        final startText = startDate.toString().replaceAll('00:00:00.000', '');
+        final endText = endDate != null
+            ? endDate.toString().replaceAll('00:00:00.000', '')
             : 'null';
-        valueText = '$startDate to $endDate';
+        valueText = '$startText to $endText';
       } else {
         return 'null';
       }
@@ -122,7 +133,13 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.white.withOpacity(0.4),
-                        child: Icon(Icons.arrow_back, color: Colors.black),
+                        child: IconButton(icon :Icon(Icons.arrow_back), color: Colors.black, onPressed: () {  
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>DashNav(),
+                              ),
+                            );
+                        },),
                       ),
                       CircleAvatar(
                         backgroundColor: Colors.white.withOpacity(0.4),
@@ -131,20 +148,27 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                     ],
                   ),
                 ),
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.5,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F130896336.jpg?alt=media&token=c66ade5b-3e60-49e4-9ace-2f8a72f6a6aa"),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(40),
-                  ),
+              SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: imageUrls.map((url) {
+            return Container(
+              margin: EdgeInsets.all(8.0),
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.4,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(url),
+                  fit: BoxFit.cover,
                 ),
-                
+                borderRadius: BorderRadius.circular(15),
               ),
+            );
+          }).toList(),
+        ),
+          
+        ),
+      
               SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -152,7 +176,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Santorini Island',
+                      'Avani Lesotho',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 30,
@@ -347,7 +371,17 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Have you ever been on holiday to the Greek islands before? There’s a good chance you may have come across Santorini before.',
+                      'Maseru’s swankiest hotel is also the most exclusive, perched high on a hilltop overlooking the city. Live it up here, whether rolling dice at the casino or kicking off the weekend with sunset drinks by the pool',
+                      style: TextStyle(
+                        color: Color(0xFF89807A),
+                        fontSize: 13,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '-158 rooms and suites\n-Pool \n-Gym \n-sauna spa\n-Maseru’s only casino \n-30-minute drive from Moshoeshoe I International Airport \n -Two hours’ drive from Bloemfontein',
                       style: TextStyle(
                         color: Color(0xFF89807A),
                         fontSize: 13,
@@ -366,7 +400,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                         child: Column(
                           children: [
                             Text(
-                              '\$98',
+                             'M$totalPrice',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 30,
@@ -417,6 +451,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
           ),
         ),
       ),
+      
     );
   }
 }
