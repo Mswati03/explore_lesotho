@@ -1,4 +1,5 @@
 import 'package:explore_lesotho/dashboard/modules/chatbot.dart';
+import 'package:explore_lesotho/dashboard/modules/profile-settings.dart';
 import 'package:explore_lesotho/pages/login-page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,8 +27,31 @@ class _ProfileState extends State<Profile> {
                 backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
               const SizedBox(height: 20),
-              itemProfile('User Information', 'mswat@gmail.com', CupertinoIcons.person, (){
-                print("user");
+              itemProfile('User Information', 'mswat@gmail.com', CupertinoIcons.person, () async {
+                
+                    await FirebaseAuth.instance.signOut();
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return LoadingAnimationWidget.inkDrop(
+                          color: Colors.blueAccent,
+                          size: 50,
+
+
+                        );
+                      },
+                    );
+                    new Future.delayed(new Duration(seconds: 1), () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileSettings(),
+                        ),
+                      );
+                    },
+                    );
+
+                  
 
               }),
               const SizedBox(height: 15),
