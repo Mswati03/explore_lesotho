@@ -51,6 +51,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^25.2.5
   calendar_date_picker2: ^1.0.2
   firebase_storage: ^11.7.6
+  image_picker: ^1.1.1
   
 
 

@@ -1,90 +1,144 @@
-import 'package:explore_lesotho/dashboard/modules/chatbot.dart';
-import 'package:explore_lesotho/pages/login-page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore_lesotho/dashboard/modules/profile.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({super.key});
-
+class EditProfilePage extends StatefulWidget {
   @override
-  State<ProfileSettings> createState() => _ProfileSettingsState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
+class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _dobController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  String? _gender;
+  File? _image;
+  final picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    DocumentSnapshot profile = await FirebaseFirestore.instance.collection('profiles').doc('user_id').get();
+    if (profile.exists) {
+      setState(() {
+        _nameController.text = profile['name'];
+        _dobController.text = profile['dob'];
+        _emailController.text = profile['email'];
+        _phoneController.text = profile['phone'];
+        _gender = profile['gender'] as String?;
+      });
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    String? imageUrl;
+    if (_image != null) {
+      final storageRef = FirebaseStorage.instance.ref().child('profile_pictures/${DateTime.now().millisecondsSinceEpoch}');
+      await storageRef.putFile(_image!);
+      imageUrl = await storageRef.getDownloadURL();
+    }
+
+    await FirebaseFirestore.instance.collection('profiles').doc('user_id').update({
+      'name': _nameController.text,
+      'dob': _dobController.text,
+      'email': _emailController.text,
+      'phone': _phoneController.text,
+      'gender': _gender,
+      if (imageUrl != null) 'profilePicture': imageUrl,
+    });
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child:Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-            children: [
-              const SizedBox(height: 40),
-              CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage('assets/images/user.JPG'),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back) ,onPressed: ()
+        {
+          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>Profile(),
+                              ),
+                            );
+        },),
+        title: Text('Edit Profile'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: _pickImage,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: _image == null ? null : FileImage(_image!),
+                  child: _image == null
+                      ? Icon(Icons.camera_alt, size: 50)
+                      : null,
+                ),
               ),
-              const SizedBox(height: 20),
-              itemProfile('Email ID', TextField(), CupertinoIcons.person, (){
-                print("user");
-
-              }),
-              const SizedBox(height: 15),
-              itemProfile('Phone Number', TextField(), CupertinoIcons.phone ,(){
-              print("user");
-
-              }),
-              const SizedBox(height: 15),
-              itemProfile(
-                  'Name', TextField(), Icons.person, (){
-                
-               
-
-              }),
-              const SizedBox(height: 12),
-              itemProfile('Passoword', TextField(),
-                  CupertinoIcons.lock_fill, () {
-                    
-                  }),
-              const SizedBox(height: 20,),
-
-
-
-
-            ]
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(labelText: 'Name'),
+              ),
+              TextField(
+                controller: _dobController,
+                decoration: InputDecoration(labelText: 'Date of Birth'),
+                keyboardType: TextInputType.datetime,
+              ),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextField(
+                controller: _phoneController,
+                decoration: InputDecoration(labelText: 'Phone'),
+                keyboardType: TextInputType.phone,
+              ),
+              DropdownButtonFormField<String>(
+                value: _gender,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _gender = newValue;
+                  });
+                },
+                items: ['Male', 'Female', 'Other']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(labelText: 'Gender'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _updateProfile,
+                child: Text('Save'),
+              ),
+            ],
+          ),
         ),
-
-
       ),
     );
   }
-
-
-}
-itemProfile(String title, TextField , IconData iconData,onTap ) {
-  return Container(
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(0, 5),
-              color: Colors.green.withOpacity(.2),
-              spreadRadius: 2,
-              blurRadius: 10
-          )
-        ]
-    ),
-    child: ListTile(
-      title: Text(title),
-      subtitle: TextField,
-      leading: Icon(iconData),
-      trailing: Icon(Icons.arrow_forward, color: Colors.grey.shade400),
-      tileColor: Colors.white,
-      onTap: onTap,
-
-    ),
-  );
-
 }

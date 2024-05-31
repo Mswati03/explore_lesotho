@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
                     new Future.delayed(new Duration(seconds: 1), () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => ProfileSettings(),
+                          builder: (context) => EditProfilePage(),
                         ),
                       );
                     },
