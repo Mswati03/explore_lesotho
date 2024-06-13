@@ -1,3 +1,5 @@
+import 'package:explore_lesotho/pages/login-page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -106,8 +108,26 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ),
                     const SizedBox(height:50 ,),
                     ElevatedButton(
-                      onPressed: (){},
-                      child: Text("Verify"),
+                      onPressed: ()async {
+                        await FirebaseAuth.instance
+    .sendPasswordResetEmail(email: "user@example.com");
+
+ showDialog(
+                      context: context,
+                      builder: (context) {
+                        Future.delayed(Duration(seconds: 5), () {
+                         Navigator.of(context).push(
+    MaterialPageRoute(
+    builder: (context) =>LoginPage(),
+    ),
+    );
+                        });
+                        return AlertDialog(
+                          title: Text('Email Reset Link Sent Successfully'),
+                        );
+                      });
+                      },
+                      child: Text("Reset Password"),
                     ),
 
                   ],

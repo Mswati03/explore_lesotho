@@ -52,6 +52,8 @@ dependencies:
   calendar_date_picker2: ^1.0.2
   firebase_storage: ^11.7.6
   image_picker: ^1.1.1
+  flutter_paypal_payment: ^1.0.6
+  #flutter_paypal_checkout: 
   
 
 
