@@ -1,9 +1,10 @@
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
-        google()
         mavenCentral()
+        google()
     }
+
 
     dependencies {
         // START: FlutterFire Configuration
@@ -16,8 +17,9 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
         mavenCentral()
+        google()
+        
     }
 }
 

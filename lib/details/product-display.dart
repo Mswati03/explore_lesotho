@@ -437,8 +437,8 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => PaypalCheckoutView(
                   sandboxMode: true,
-                  clientId: "YOUR CLIENT ID",
-                  secretKey: "YOUR SECRET KEY",
+                  clientId: "AcSpZUEFA54RBOQrn0ej30Dz2hKoboQjJnVniA9adzaUCywHwr_AgBBYCtrHUAIGiXLi-48wHxsIenDs",
+                  secretKey: "ELVlcMD4IhegUJPcFfsZC9DFhndPvJE5pH6DnAouqM31rX7GGWd62ZhlmZRJdcT-uWn4Q5081GDJ81CG",
                   transactions: const [
                     {
                       "amount": {
