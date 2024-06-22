@@ -13,12 +13,15 @@ class SantoriniIslandPage extends StatefulWidget {
 }
 
 class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
+  
    DateTime selectedDate = DateTime.now();
    bool dateSelected = false;
    //bool dateSelected = false;
   String dateResponse = '';
   int pricePerPerson = 1000;
   int totalPrice = 1000;
+  int _selected = 0;
+  int a=1500;
   List<String> imageUrls = [
     "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F130896336.jpg?alt=media&token=c66ade5b-3e60-49e4-9ace-2f8a72f6a6aa"
     "https://firebasestorage.googleapis.com/v0/b/explore-lesotho.appspot.com/o/images%2Fhotels%2FAvani%20Lesotho%2F404.jpeg?alt=media&token=519a642a-b3ed-450a-bc7c-a06524417e53",
@@ -42,7 +45,29 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
    // fetchImageUrls();
   }
 
-  
+  Widget _icon(int index, {required String text, required IconData icon}) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: InkResponse(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: _selected == index ? Colors.greenAccent : null,
+            ),
+            Text(
+              text,
+              style: TextStyle(color: _selected == index ? Colors.greenAccent : null),
+            ),
+          ],
+        ),
+        onTap: () => setState(() {
+          _selected = index;
+        }),
+      ),
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -69,7 +94,9 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
         final endDate = values.length > 1 ? values[1] : null;
         if (startDate != null && endDate != null) {
           final duration = endDate.difference(startDate).inDays + 1; // Include the start date
+          
           totalPrice = duration * pricePerPerson;
+          a = totalPrice + 500;
         }
         final startText = startDate.toString().replaceAll('00:00:00.000', '');
         final endText = endDate != null
@@ -382,6 +409,17 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                       ),
                     ),
                     SizedBox(height: 8),
+                     Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _icon(0, text: "Single Room", icon: Icons.bedroom_child),
+          const SizedBox(width: 10),
+          _icon(1, text: "Double Room", icon: Icons.bedroom_parent),
+        ],
+      ),
+    ),
+     SizedBox(height: 8),
                     Text(
                       '-158 rooms and suites\n-Pool \n-Gym \n-sauna spa\n-Maseru’s only casino \n-30-minute drive from Moshoeshoe I International Airport \n -Two hours’ drive from Bloemfontein',
                       style: TextStyle(
@@ -402,7 +440,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                         child: Column(
                           children: [
                             Text(
-                             'M$totalPrice',
+                             _selected == 0 ?'M$totalPrice ' : 'M$a',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 30,
@@ -434,72 +472,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                           ),
                         ),
                          onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => PaypalCheckoutView(
-                  sandboxMode: true,
-                  clientId: "AcSpZUEFA54RBOQrn0ej30Dz2hKoboQjJnVniA9adzaUCywHwr_AgBBYCtrHUAIGiXLi-48wHxsIenDs",
-                  secretKey: "ELVlcMD4IhegUJPcFfsZC9DFhndPvJE5pH6DnAouqM31rX7GGWd62ZhlmZRJdcT-uWn4Q5081GDJ81CG",
-                  transactions: const [
-                    {
-                      "amount": {
-                        "total": '100',
-                        "currency": "USD",
-                        "details": {
-                          "subtotal": '100',
-                          "shipping": '0',
-                          "shipping_discount": 0
-                        }
-                      },
-                      "description": "The payment transaction description.",
-                      // "payment_options": {
-                      //   "allowed_payment_method":
-                      //       "INSTANT_FUNDING_SOURCE"
-                      // },
-                      "item_list": {
-                        "items": [
-                          {
-                            "name": "Apple",
-                            "quantity": 4,
-                            "price": '10',
-                            "currency": "USD"
-                          },
-                          {
-                            "name": "Pineapple",
-                            "quantity": 5,
-                            "price": '12',
-                            "currency": "USD"
-                          }
-                        ],
-
-                        // Optional
-                        //   "shipping_address": {
-                        //     "recipient_name": "Tharwat samy",
-                        //     "line1": "tharwat",
-                        //     "line2": "",
-                        //     "city": "tharwat",
-                        //     "country_code": "EG",
-                        //     "postal_code": "25025",
-                        //     "phone": "+00000000",
-                        //     "state": "ALex"
-                        //  },
-                      }
-                    }
-                  ],
-                  note: "Contact us for any questions on your order.",
-                  onSuccess: (Map params) async {
-                    print("onSuccess: $params");
-                    Navigator.pop(context);
-                  },
-                  onError: (error) {
-                    print("onError: $error");
-                    Navigator.pop(context);
-                  },
-                  onCancel: () {
-                    print('cancelled:');
-                    Navigator.pop(context);
-                  },
-                ),
-              ));
+              
             },
                         child: Text(
                           'Book Now',
@@ -523,7 +496,9 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
       
     );
   }
+  
 }
+
 
 class InfoTile extends StatelessWidget {
   final IconData icon;
