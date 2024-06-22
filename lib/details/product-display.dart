@@ -1,10 +1,14 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore_lesotho/dashboard/dashboard-nav.dart';
+import 'package:explore_lesotho/details/components/bookings/bookings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
+import 'package:uuid/uuid.dart';
 
 class SantoriniIslandPage extends StatefulWidget {
 
@@ -68,6 +72,29 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
       ),
     );
   }
+  Future<void> _saveBookingDetails(String dateRange, int amount, String roomType) async {
+    final bookingId = Uuid().v4();
+
+    await FirebaseFirestore.instance.collection('bookings').doc(bookingId).set({
+      'bookingId': bookingId,
+      'dateRange': dateRange,
+      'amount': amount,
+      'roomType': roomType,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => BookingConfirmationPage(
+          bookingId: bookingId,
+          dateRange: dateRange,
+          amount: amount,
+          roomType: roomType,
+        ),
+      ),
+    );
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -138,6 +165,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
               child: Text(
                 _getValueText(
                   config.calendarType,
+
                   _rangeDatePickerWithActionButtonsWithValue,
                 ),
               ),
@@ -471,8 +499,78 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                         onPressed: () {
-              
+                         onPressed: () async {
+              await  showModalBottomSheet(
+            context: context,
+            builder: (builder){
+              return Container(
+                height: 350.0,
+                color: Colors.transparent, //could change this to Color(0xFF737373), 
+                           //so you don't have to change MaterialApp canvasColor
+                child:Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: new BorderRadius.only(
+                            topLeft: const Radius.circular(10.0),
+                            topRight: const Radius.circular(10.0))),
+                    child:  Center(
+
+                    child :Column(
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 30,),
+            Text(
+              'Booking Confirmation ',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10,),
+            /*Text(
+              'Booking ID: ',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),*/
+            SizedBox(height: 16),
+            Text(
+              dateSelected == false ? 'Dates : Not Selected' :'Dates: $dateResponse',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Text(
+               _selected == 0 ?'Amount: M$totalPrice ' : 'Amount : M$a',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Text(
+              _selected == 0 ? 'Room Type: Single': 'Room Type: Double',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+
+              ),
+           child:  ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          backgroundColor: Color(0xFF1EC089),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+              onPressed: () {
+                 submitBooking(context, dateSelected, dateResponse,_selected, totalPrice, a);
+                
+                //Navigator.pop(context);
+              },
+              child: Text('Book'),
+            ),
+            ),
+          ],
+        ),
+                ),
+                ),
+              );
+            }
+        );
             },
                         child: Text(
                           'Book Now',
@@ -541,3 +639,71 @@ class InfoTile extends StatelessWidget {
   }
 }
 
+Future<void> submitBooking(BuildContext context, bool dateSelected, String dateResponse, int _selected, int totalPrice, int a) async {
+  FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) async {
+    if (user != null) {
+      print(user.uid);
+        try {
+   if (user != null) {
+    for (final providerProfile in user.providerData) {
+        // ID of the provider (google.com, apple.com, etc.)
+        final provider = providerProfile.providerId;
+
+        // UID specific to the provider
+        final uid = providerProfile.uid;
+
+        // Name, email address, and profile photo URL
+        final name = providerProfile.displayName;
+        final emailAddress = providerProfile.email;
+        final profilePhoto = providerProfile.photoURL;
+
+print(emailAddress);
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookings').add({
+      'dateSelected': dateSelected ? dateResponse.toString() : 'Not Selected',
+      'totalPrice': _selected == 0 ? 'M$totalPrice' : 'M$a',
+      'roomType': _selected == 0 ? 'Single' : 'Double',
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+    showDialog(
+             context: context,
+             builder: (_) {
+               return AlertDialog(
+                 title: const Text('Booking Done'),
+                 content: const Text('Booking Receipt has been sent to your email'),
+                 actions: [
+                   TextButton(
+                     onPressed: Navigator.of(context).pop,
+                     child: const Text('Ok'),
+                   ),
+                 ],
+               );
+             },
+           );
+      }
+}  //Navigator.pop(context);
+  } catch (e) {
+    showDialog(
+             context: context,
+             builder: (_) {
+               return AlertDialog(
+                 title: const Text('Error'),
+                 content: const Text('Booking Failed'),
+                 actions: [
+                   TextButton(
+                     onPressed: Navigator.of(context).pop,
+                     child: const Text('Ok'),
+                   ),
+                 ],
+               );
+             },
+           );
+    print('Error submitting booking: $e');
+    // Handle errors appropriately in your app
+  }
+}
+
+    });
+  }
+  
