@@ -56,6 +56,9 @@ dependencies:
   #flutter_paypal_checkout: 
   carousel_slider: ^4.2.1
   uuid: ^4.4.0
+  emailjs: ^4.0.0
+  mailer: ^6.1.1
+  flutter_email_sender: ^6.0.3
   
 
 

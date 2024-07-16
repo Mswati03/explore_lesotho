@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:uuid/uuid.dart';
+import 'package:emailjs/emailjs.dart' as emailjs;
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class SantoriniIslandPage extends StatefulWidget {
 
@@ -176,6 +180,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
       ],
     );
   }
+  
     
    
     return Scaffold(
@@ -500,6 +505,8 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                           ),
                         ),
                          onPressed: () async {
+                          print("PRESSED");
+                            sendPROPERMAIL();
               await  showModalBottomSheet(
             context: context,
             builder: (builder){
@@ -557,6 +564,7 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                           ),
                         ),
               onPressed: () {
+               
                  submitBooking(context, dateSelected, dateResponse,_selected, totalPrice, a);
                 
                 //Navigator.pop(context);
@@ -666,6 +674,7 @@ print(emailAddress);
       'roomType': _selected == 0 ? 'Single' : 'Double',
       'timestamp': FieldValue.serverTimestamp(),
     });
+   
     showDialog(
              context: context,
              builder: (_) {
@@ -707,3 +716,28 @@ print(emailAddress);
     });
   }
   
+   Future<void> sendPROPERMAIL() async {
+    print("email clicked");
+    final Email email = Email(
+      body: "HELLO",
+      subject: "GREETINGS",
+      recipients: ["mswati2198@gmail.com"],
+      //attachmentPaths: attachments,
+      //isHTML: isHTML,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+      print("sent");
+    } catch (error) {
+      print(error);
+      platformResponse = error.toString();
+    }
+
+    //if (!mounted) return;
+
+    
+  }
