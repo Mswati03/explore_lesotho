@@ -13,7 +13,8 @@ import 'package:emailjs/emailjs.dart' as emailjs;
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class SantoriniIslandPage extends StatefulWidget {
 
   @override
@@ -21,7 +22,7 @@ class SantoriniIslandPage extends StatefulWidget {
 }
 
 class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
-  
+  //var uuid = Uuid();
    DateTime selectedDate = DateTime.now();
    bool dateSelected = false;
    //bool dateSelected = false;
@@ -505,8 +506,28 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                           ),
                         ),
                          onPressed: () async {
+                          var uuid =Uuid();
+var v4 = uuid.v4(); 
+print(v4);
                           print("PRESSED");
-                            sendPROPERMAIL();
+                           // sendPROPERMAIL();
+                           /*_sendEmail(
+                            bookingId: v4, 
+                           userEmail: 'mswati2198@gmail.com',
+                            toEmail: 'mswatitshabalala34@gmail.com', 
+                            roomType: 'number7',
+                            dateSelected: 'TODAY',
+                            price : 'R79.00'
+                           );*/
+                          // sendEmailJJSS();
+                          sendEmailJJSSJJSS(
+  toEmail: 'recipient@example.com',
+  userEmail: 'user@example.com',
+  bookingId: '123456',
+  dateSelected: '2024-07-19',
+  roomType: 'Deluxe',
+  price: '\$200',
+);
               await  showModalBottomSheet(
             context: context,
             builder: (builder){
@@ -668,10 +689,14 @@ Future<void> submitBooking(BuildContext context, bool dateSelected, String dateR
         final profilePhoto = providerProfile.photoURL;
 
 print(emailAddress);
+var uuid =Uuid();
+var v4 = uuid.v4(); 
     await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookings').add({
+      'bookingid': v4, 
       'dateSelected': dateSelected ? dateResponse.toString() : 'Not Selected',
       'totalPrice': _selected == 0 ? 'M$totalPrice' : 'M$a',
       'roomType': _selected == 0 ? 'Single' : 'Double',
+      
       'timestamp': FieldValue.serverTimestamp(),
     });
    
@@ -741,3 +766,115 @@ print(emailAddress);
 
     
   }
+  
+  void _sendEmail({
+  required String toEmail,
+  required String userEmail,
+  required String bookingId,
+  required String dateSelected,
+  required String roomType,
+  required String price,
+}) async {
+  try {
+    await emailjs.send(
+      'service_fyxhmf7',
+      'template_8iebfwd',
+      {
+        'to_email': toEmail,
+        'user_email': userEmail,
+        'booking_id': bookingId,
+        'date_selected': dateSelected,
+        'room_type': roomType,
+        'price': price,
+      },
+      const emailjs.Options(
+        publicKey: 'eO9nmDLgDLPCoywzb',
+        privateKey: 'H7mfd6cRii0Yro5qKfqSR',
+        limitRate: const emailjs.LimitRate(
+          id: 'app',
+          throttle: 10000,
+        ),
+      ),
+    );
+    print('SUCCESS!');
+  } catch (error) {
+    if (error is emailjs.EmailJSResponseStatus) {
+      print('ERROR... $error');
+    }
+    print(error.toString());
+  }
+}
+
+/*Future  sendEmailJS() async{
+  final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+  const serviceId = "service_fyxhmf7";
+  const templateId = "template_8iebfwd";
+ // const userId = ""
+}
+*/
+Future<bool> sendEmailJJSS() async {
+  try {
+    await emailjs.send(
+       'service_fyxhmf7',
+      'template_8iebfwd',
+       
+      {
+        'to_email': "mswati2198@gmail.com",
+        'user_email': "mswatitshabalala34@gmail.com",
+        'booking_id': '0202',
+        'date_selected': 'dateSelected',
+        'room_type': 'roomType',
+        'price': 'price',
+      },
+      const emailjs.Options(
+        publicKey: 'eO9nmDLgDLPCoywzb',
+      ),
+    );
+    print('SUCCESS!');
+    return true;
+  } catch (error) {
+    if (error is emailjs.EmailJSResponseStatus) {
+      print('ERROR... ${error.status}: ${error.text}');
+    }
+    print(error.toString());
+    return false;
+  }
+}
+
+Future<void> sendEmailJJSSJJSS({
+  required String toEmail,
+  required String userEmail,
+  required String bookingId,
+  required String dateSelected,
+  required String roomType,
+  required String price,
+}) async {
+  final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+  var http;
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({
+      'service_id': 'service_fyxhmf7',
+      'template_id': 'template_8iebfwd',
+      'user_id': 'eO9nmDLgDLPCoywzb',
+      'accessToken': 'H7mfd6cRii0Yro5qKfqSR',
+      'template_params': {
+        'to_email': toEmail,
+        'user_email': userEmail,
+        'booking_id': bookingId,
+        'date_selected': dateSelected,
+        'room_type': roomType,
+        'price': price,
+      },
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print('SUCCESS!');
+  } else {
+    print('ERROR... ${response.statusCode}: ${response.body}');
+  }
+}
