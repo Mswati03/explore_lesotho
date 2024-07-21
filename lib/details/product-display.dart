@@ -520,7 +520,7 @@ print(v4);
                             price : 'R79.00'
                            );*/
                           // sendEmailJJSS();
-                          sendEmailJJSSJJSS(
+                          sendEmail56(
   toEmail: 'recipient@example.com',
   userEmail: 'user@example.com',
   bookingId: '123456',
@@ -841,7 +841,8 @@ Future<bool> sendEmailJJSS() async {
   }
 }
 
-Future<void> sendEmailJJSSJJSS({
+
+Future<void> sendEmail56({
   required String toEmail,
   required String userEmail,
   required String bookingId,
@@ -850,10 +851,11 @@ Future<void> sendEmailJJSSJJSS({
   required String price,
 }) async {
   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-  var http;
+
   final response = await http.post(
     url,
     headers: {
+      'origin':'http://localhost',
       'Content-Type': 'application/json',
     },
     body: json.encode({
