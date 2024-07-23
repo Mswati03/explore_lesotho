@@ -105,28 +105,20 @@ class _EmailVerifyState extends State<EmailVerify> {
                     suffixIcon: IconButton(
                         onPressed: () async {
                           print("EmailInputted");
-                          myauth.setConfig(
-                              appEmail: "contact@hdevcoder.com",
-                              appName: "Email OTP",
-                              userEmail: _emailController.text.toString().trim(),
-                              otpLength: 4,
-                              otpType: OTPType.digitsOnly);
-                          if (await myauth.sendOTP() == true) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("OTP has been sent"),
-                            ));
-                            Navigator.push(
+                         if (await EmailOTP.sendOTP(email: _emailController.text)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("OTP has been sent"))); 
+                    Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>   OtpScreen(myauth: myauth,)));
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("Oops, OTP send failed"),
-                            ));
                           }
+              else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("OTP failed sent")));
+              }
                         },
+                           
                         icon: const Icon(
                           Icons.send_rounded,
                           color: Colors.teal,

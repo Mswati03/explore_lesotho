@@ -125,10 +125,18 @@ packages:
     dependency: "direct main"
     description:
       name: email_otp
-      sha256: c19c35c3df43ca0d5cf763c9cfb682455c0defc629903704cd1ed4dfc21440c1
+      sha256: ecc64244b782566f66a06d4b4837533d5edb7cc6ce5888b7fc5959a747247b9f
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "3.0.2"
+  email_otp_auth:
+    dependency: "direct main"
+    description:
+      name: email_otp_auth
+      sha256: "841669dec31352f5a18885a46b816f65408a28d29ffea01b287395b8e5ea5add"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   emailjs:
     dependency: "direct main"
     description:

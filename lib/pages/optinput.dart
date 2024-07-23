@@ -53,6 +53,8 @@ class _OtpScreenState extends State<OtpScreen> {
   TextEditingController otp2Controller = TextEditingController();
   TextEditingController otp3Controller = TextEditingController();
   TextEditingController otp4Controller = TextEditingController();
+  TextEditingController otp5Controller = TextEditingController();
+  TextEditingController otp6Controller = TextEditingController();
 
   String otpController = "1234";
   @override
@@ -100,6 +102,12 @@ class _OtpScreenState extends State<OtpScreen> {
               Otp(
                 otpController: otp4Controller,
               ),
+              Otp(
+                otpController: otp5Controller,
+              ),
+              Otp(
+                otpController: otp6Controller,
+              ),
             ],
           ),
           const SizedBox(
@@ -114,10 +122,12 @@ class _OtpScreenState extends State<OtpScreen> {
           ),
           ElevatedButton(
             onPressed: () async {
-            if (await widget.myauth.verifyOTP(otp: otp1Controller.text +
+            if (await EmailOTP.verifyOTP(otp: otp1Controller.text +
                     otp2Controller.text +
                     otp3Controller.text +
-                    otp4Controller.text) == true) {
+                    otp4Controller.text +
+                    otp5Controller.text +
+                    otp6Controller.text) == true) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("OTP is verified"),
                 ));

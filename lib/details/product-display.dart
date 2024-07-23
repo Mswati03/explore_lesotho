@@ -506,9 +506,13 @@ class _SantoriniIslandPageState extends State<SantoriniIslandPage> {
                           ),
                         ),
                          onPressed: () async {
+                          final user = FirebaseAuth.instance.currentUser;
+                          if (user!= null) {
+                           final email = user.email;
                           var uuid =Uuid();
 var v4 = uuid.v4(); 
 print(v4);
+
                           print("PRESSED");
                            // sendPROPERMAIL();
                            /*_sendEmail(
@@ -520,14 +524,7 @@ print(v4);
                             price : 'R79.00'
                            );*/
                           // sendEmailJJSS();
-                          sendEmail56(
-  toEmail: 'recipient@example.com',
-  userEmail: 'user@example.com',
-  bookingId: '123456',
-  dateSelected: '2024-07-19',
-  roomType: 'Deluxe',
-  price: '\$200',
-);
+                          
               await  showModalBottomSheet(
             context: context,
             builder: (builder){
@@ -586,8 +583,16 @@ print(v4);
                         ),
               onPressed: () {
                
-                 submitBooking(context, dateSelected, dateResponse,_selected, totalPrice, a);
-                
+                 //submitBooking(context, dateSelected, dateResponse,_selected, totalPrice, a);
+                sendEmail56(
+  toEmail: 'recipient@example.com',
+  userEmail: email?? 'mswatitshabalala34@gmail.com',
+  bookingId: v4,
+  dateSelected:   dateSelected == false ? 'Dates : Not Selected' :'Dates: $dateResponse',
+  roomType:   _selected == 0 ? 'Room Type: Single': 'Room Type: Double',
+  price:  _selected == 0 ?'Amount: M$totalPrice ' : 'Amount : M$a',
+             
+);
                 //Navigator.pop(context);
               },
               child: Text('Book'),
@@ -600,7 +605,10 @@ print(v4);
               );
             }
         );
-            },
+                          
+            }
+                         },
+                         
                         child: Text(
                           'Book Now',
                           style: TextStyle(
